@@ -1,0 +1,54 @@
+AWSTemplateFormatVersion : '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Description:
+  Weather Station Service
+Resources:
+  TemperatureSensorShow:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: main
+      CodeUri: ./bin/sensors/temperature/show.zip
+      Runtime: go1.x
+      Timeout: 30
+      Environment:
+        Variables:
+          AUTHENTICATION_TOKEN:
+      Events:
+        GetRates:
+          Type: Api
+          Properties:
+            Path: /sensors/temperature
+            Method: get
+  HumiditySensorShow:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: main
+      CodeUri: ./bin/sensors/humidity/show.zip
+      Runtime: go1.x
+      Timeout: 30
+      Environment:
+        Variables:
+          AUTHENTICATION_TOKEN:
+      Events:
+        GetRates:
+          Type: Api
+          Properties:
+            Path: /sensors/humidity
+            Method: get
+  PanelIndex:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: main
+      CodeUri: ./bin/panel/index.zip
+      Runtime: go1.x
+      Timeout: 30
+      Environment:
+        Variables:
+          AUTHENTICATION_TOKEN:
+      Events:
+        GetRates:
+          Type: Api
+          Properties:
+            Path: /panel
+            Method: get

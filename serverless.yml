@@ -1,0 +1,38 @@
+service: weather-station
+
+provider:
+  name: aws
+  runtime: go1.x
+  region: us-west-2
+
+package:
+ exclude:
+   - ./**
+ include:
+   - ./bin/**
+
+functions:
+  TemperatureSensorShow:
+    handler: bin/sensors/temperature/show
+    events:
+      - http:
+          path: /
+          method: get
+    environment:
+      AUTHENTICATION_TOKEN: ${ssm:authentication}
+  HumiditySensorShow:
+    handler: bin/sensors/humidity/show
+    events:
+      - http:
+          path: /
+          method: get
+    environment:
+      AUTHENTICATION_TOKEN: ${ssm:authentication}
+  PanelIndex:
+    handler: bin/panel/index
+    events:
+      - http:
+          path: /
+          method: get
+    environment:
+      AUTHENTICATION_TOKEN: ${ssm:authentication}
